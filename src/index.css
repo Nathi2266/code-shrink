@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Fira+Code:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 120 100% 50%;
+    --card: 0 0% 3%;
+    --card-foreground: 120 100% 50%;
+    --popover: 0 0% 3%;
+    --popover-foreground: 120 100% 50%;
+    --primary: 120 100% 50%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 8%;
+    --secondary-foreground: 120 100% 50%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 120 60% 35%;
+    --accent: 120 100% 30%;
+    --accent-foreground: 120 100% 80%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 120 100% 20%;
+    --input: 0 0% 8%;
+    --ring: 120 100% 50%;
+    --radius: 0.25rem;
+    --neon-green: #00FF41;
+    --neon-dim: #00cc33;
+    --neon-dark: #003300;
+    --terminal-bg: #000000;
+    --terminal-panel: #050f05;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-black text-green-400;
+    font-family: 'Fira Code', 'Share Tech Mono', 'Courier New', monospace;
+    overflow-x: hidden;
+  }
+}
+
+/* Scanline overlay */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 65, 0.015) 2px,
+    rgba(0, 255, 65, 0.015) 4px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* Neon glow text utilities */
+.neon-text {
+  color: #00FF41;
+  text-shadow: 0 0 7px #00FF41, 0 0 10px #00FF41, 0 0 21px #00FF41;
+}
+
+.neon-text-dim {
+  color: #00cc33;
+  text-shadow: 0 0 5px #00cc33;
+}
+
+.neon-glow-sm {
+  text-shadow: 0 0 5px #00FF41;
+}
+
+.neon-border {
+  border: 1px solid #00FF41;
+  box-shadow: 0 0 8px #00FF41, inset 0 0 8px rgba(0,255,65,0.1);
+}
+
+.neon-border-dim {
+  border: 1px solid #00cc33;
+  box-shadow: 0 0 4px rgba(0,204,51,0.5);
+}
+
+.terminal-panel {
+  background: rgba(0, 10, 0, 0.85);
+  border: 1px solid #00cc33;
+  box-shadow: 0 0 15px rgba(0,255,65,0.1), inset 0 0 30px rgba(0,255,65,0.02);
+}
+
+.terminal-header {
+  background: rgba(0, 40, 0, 0.9);
+  border-bottom: 1px solid #00cc33;
+}
+
+.neon-btn {
+  background: transparent;
+  border: 1px solid #00FF41;
+  color: #00FF41;
+  font-family: 'Fira Code', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 8px rgba(0,255,65,0.3);
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+
+.neon-btn:hover {
+  background: rgba(0, 255, 65, 0.15);
+  box-shadow: 0 0 20px rgba(0,255,65,0.7), inset 0 0 10px rgba(0,255,65,0.1);
+  text-shadow: 0 0 8px #00FF41;
+}
+
+.neon-btn:active {
+  background: rgba(0, 255, 65, 0.3);
+}
+
+.neon-btn-secondary {
+  background: transparent;
+  border: 1px solid #00cc33;
+  color: #00cc33;
+  font-family: 'Fira Code', monospace;
+  transition: all 0.2s ease;
+}
+
+.neon-btn-secondary:hover {
+  border-color: #00FF41;
+  color: #00FF41;
+  box-shadow: 0 0 10px rgba(0,255,65,0.4);
+}
+
+.code-textarea {
+  background: rgba(0, 5, 0, 0.9);
+  color: #00FF41;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  border: none;
+  resize: none;
+  caret-color: #00FF41;
+  outline: none;
+}
+
+.code-textarea::placeholder {
+  color: rgba(0, 255, 65, 0.25);
+}
+
+.code-textarea::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.code-textarea::-webkit-scrollbar-track {
+  background: #000;
+}
+.code-textarea::-webkit-scrollbar-thumb {
+  background: #00cc33;
+  border-radius: 0;
+}
+
+/* Matrix canvas behind everything */
+#matrix-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  opacity: 0.18;
+}
+
+/* Progress bar */
+.progress-bar-fill {
+  background: linear-gradient(90deg, #003300, #00FF41, #00FF41);
+  box-shadow: 0 0 10px #00FF41;
+  animation: progress-glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes progress-glow {
+  from { box-shadow: 0 0 5px #00FF41; }
+  to { box-shadow: 0 0 20px #00FF41, 0 0 30px #00FF41; }
+}
+
+/* Glitch effect for 404 */
+@keyframes glitch {
+  0% { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 0); }
+  20% { clip-path: inset(92% 0 1% 0); transform: translate(2px, 0); }
+  40% { clip-path: inset(43% 0 1% 0); transform: translate(-2px, 0); }
+  60% { clip-path: inset(25% 0 58% 0); transform: translate(2px, 0); }
+  80% { clip-path: inset(54% 0 7% 0); transform: translate(-2px, 0); }
+  100% { clip-path: inset(58% 0 43% 0); transform: translate(0, 0); }
+}
+
+.glitch-text {
+  position: relative;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+
+.glitch-text::before {
+  color: #00FF41;
+  animation: glitch 3s infinite linear alternate-reverse;
+  opacity: 0.7;
+}
+
+.glitch-text::after {
+  color: #00FF41;
+  animation: glitch 2s infinite linear alternate;
+  opacity: 0.5;
+}
+
+/* Select styling */
+.terminal-select {
+  background: rgba(0, 10, 0, 0.9);
+  border: 1px solid #00cc33;
+  color: #00FF41;
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+}
+
+.terminal-select option {
+  background: #000;
+  color: #00FF41;
+}
+
+/* Blink cursor */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor-blink::after {
+  content: '_';
+  animation: blink 1s step-end infinite;
+  color: #00FF41;
+}
+
+/* Input styling */
+.terminal-input {
+  background: rgba(0, 10, 0, 0.9);
+  border: 1px solid #00cc33;
+  color: #00FF41;
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+}
+
+.terminal-input:focus {
+  border-color: #00FF41;
+  box-shadow: 0 0 8px rgba(0,255,65,0.4);
+  outline: none;
+}
+
+.terminal-input::placeholder {
+  color: rgba(0,255,65,0.3);
+}
+
+/* Scrollbar for main page */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: #00cc33;
+}
+
+/* Stat badge */
+.stat-badge {
+  background: rgba(0, 255, 65, 0.08);
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  color: #00FF41;
+  font-family: 'Fira Code', monospace;
+}
